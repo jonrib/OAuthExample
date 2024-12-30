@@ -45,21 +45,6 @@ builder.Services.AddOpenIddict()
             .UseDbContext<AppDbContext>();
     })
 
-    // Register the OpenIddict client components.
-    .AddClient(options =>
-    {
-        // Note: this sample uses the code flow, but you can enable the other flows if necessary.
-        options.AllowAuthorizationCodeFlow();
-
-        // Register the signing and encryption credentials used to protect
-        // sensitive data like the state tokens produced by OpenIddict.
-        options.AddDevelopmentEncryptionCertificate()
-            .AddDevelopmentSigningCertificate();
-
-        // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
-        options.UseAspNetCore();
-    })
-
     // Register the OpenIddict server components.
     .AddServer(options =>
     {
@@ -87,7 +72,6 @@ builder.Services.AddOpenIddict()
         // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
         options.UseAspNetCore()
             .EnableAuthorizationEndpointPassthrough()
-            .EnableEndSessionEndpointPassthrough()
             .EnableTokenEndpointPassthrough();
     })
 
@@ -253,8 +237,4 @@ app.Run();
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-
-class ApplicationUser : IdentityUser
-{
 }
