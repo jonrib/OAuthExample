@@ -205,6 +205,11 @@ async Task Exchange(HttpContext context)
         // Retrieve the claims principal stored in the authorization code/refresh token.
         var result = await context.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
+        if (!result.Succeeded)
+        {
+            return;
+        }
+
         var identity = new ClaimsIdentity(result.Principal.Claims,
             authenticationType: TokenValidationParameters.DefaultAuthenticationType,
             nameType: OpenIddictConstants.Claims.Name,
